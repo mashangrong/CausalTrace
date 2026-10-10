@@ -1,0 +1,13 @@
+# 可观测性层：OpenTelemetry Collector / Jaeger / Prometheus / Grafana / Loki
+# 组件清单随实验需求逐个补充到本目录并加入 resources；
+# OTel Collector 的 pipeline 配置见 collector/otel/collector-config.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources: []
+# 待补充:
+#   - otel-collector.yaml
+#   - jaeger.yaml
+#   - prometheus.yaml
+#   - grafana.yaml
+#   - loki.yaml

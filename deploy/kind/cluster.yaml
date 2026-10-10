@@ -1,0 +1,25 @@
+# kind 本地集群配置：1 控制面 + 2 worker，便于验证多节点调度与故障注入
+# 用法: kind create cluster --name causaltrace --config deploy/kind/cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+      - containerPort: 80    # Ingress / ts-ui-dashboard
+        hostPort: 80
+      - containerPort: 443
+        hostPort: 443
+      - containerPort: 30000 # Grafana (NodePort)
+        hostPort: 3000
+      - containerPort: 30686 # Jaeger Query (NodePort)
+        hostPort: 16686
+      - containerPort: 30090 # Prometheus (NodePort)
+        hostPort: 9090
+  - role: worker
+  - role: worker

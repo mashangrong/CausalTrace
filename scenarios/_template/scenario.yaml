@@ -1,0 +1,24 @@
+# 场景定义模板：一个场景 = 拓扑 + 流量 + 故障时间线 + 采集配置
+# 复制本目录为新场景:  scenarios/<your-scenario>/
+name: template
+description: 在此描述场景目的（如：order 服务 Pod 故障下的级联异常传播）
+
+topology:
+  overlay: experiment        # 使用 deploy/k8s/overlays 下的哪个 overlay
+  services: []               # 本场景涉及的服务清单
+
+workload:
+  tool: locust               # locust | k6
+  config: workload/locustfile.py
+  duration: 30m              # 总压测时长
+  users: 50                  # 并发用户数
+
+faults:                      # 按时间线注入的故障（Chaos Mesh 清单放在 chaos/ 下）
+  - at: 10m                  # 压测开始后第 10 分钟注入
+    chaos: chaos/pod-failure-example.yaml
+    duration: 5m             # 故障持续时长，到时自动恢复
+
+collect:                     # 采集落盘到 datasets/<scenario>/<run-id>/
+  traces: true
+  metrics: true
+  logs: true

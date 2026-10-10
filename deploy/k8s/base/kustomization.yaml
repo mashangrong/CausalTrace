@@ -1,0 +1,8 @@
+# 基础层：命名空间 + 公共基础设施
+# 后续按需把 MySQL / MongoDB / RabbitMQ / Redis 等基础设施清单加入 resources
+# （train-ticket 各服务依赖的中间件见其 deployment/kubernetes 目录）
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml

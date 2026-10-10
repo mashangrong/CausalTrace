@@ -1,0 +1,16 @@
+# Chaos Mesh 故障注入示例：让指定服务 Pod 失效 5 分钟
+# 需要先安装 Chaos Mesh: https://chaos-mesh.org/docs/production-installation-using-helm/
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-failure-example
+  namespace: causaltrace
+spec:
+  action: pod-failure
+  mode: one
+  duration: 5m
+  selector:
+    namespaces:
+      - causaltrace
+    labelSelectors:
+      app: ts-order-service   # 替换为目标服务的 label

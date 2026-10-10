@@ -1,0 +1,44 @@
+# OpenTelemetry Collector pipeline 配置（骨架）
+# 数据流: 各服务 OTLP 上报 -> 本 Collector -> Jaeger(Trace) / Prometheus(Metric) / Loki(Log)
+#         另经 file exporter 落盘，供 collector/exporters 导出到 datasets/
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 5s
+  memory_limiter:
+    limit_mib: 512
+
+exporters:
+  debug:
+    verbosity: basic
+  file:
+    path: /var/lib/otelcol/export/traces.json
+  # 按需补充:
+  # otlp/jaeger:
+  #   endpoint: jaeger-collector:4317
+  # prometheus:
+  #   endpoint: 0.0.0.0:8889
+  # loki:
+  #   endpoint: http://loki:3100/loki/api/v1/push
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [debug, file]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [debug]

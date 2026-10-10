@@ -1,0 +1,11 @@
+# train-ticket 服务层：按需启用用到的服务
+# 做法：从 third_party/train-ticket/deployment/kubernetes 拷贝所需服务的清单到本目录，
+# 适配 namespace / 镜像 tag 后，在下方的 resources 中逐个启用（可注释切换）。
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources: []
+# 示例（待适配后启用）:
+#   - ts-ui-dashboard.yaml
+#   - ts-gateway-service.yaml
+#   - ts-order-service.yaml
