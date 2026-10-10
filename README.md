@@ -29,7 +29,7 @@ docs/                      # 设计文档与实验记录
 
 ```powershell
 # 1. 拉取代码（含子模块）
-git clone --recursive <your-repo-url> CausalTrace
+git clone --recursive https://github.com/mashangrong/CausalTrace.git
 # 已克隆的仓库补拉子模块: git submodule update --init --recursive
 
 # 若访问 github.com 受限，可配置镜像重写（仅影响本机，不改仓库记录）:
